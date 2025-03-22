@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Animator playerAnim; // references the animator to control animations
-    public int speed; // speed of the player's movement
+    private int speed; // speed of the player's movement
 
     private Queue<Vector3> positions = new Queue<Vector3>(); // stores the player's previous positions
     private Queue<float> times = new Queue<float>(); //stores the times for each stored position
-    public float storeDuration = 3f; // duration to store positions
-    public float rewindDuration = 1f; // duration of rewind mechanic
+    private float storeDuration = 3f; // duration to store positions
+    private float rewindDuration = 1f; // duration of rewind mechanic
 
     private bool rewinding = false; // flag to check if rewind is in progress
 
@@ -33,7 +33,8 @@ public class PlayerController : MonoBehaviour
             {
                 playerAnim.Play("attack2");
             }
-            else if (Input.GetKey(KeyCode.A))
+
+            if (Input.GetKey(KeyCode.A))
             {
                 transform.position += Vector3.left * speed * Time.deltaTime; // move left
                 playerAnim.SetBool("isRunning", true);
@@ -45,15 +46,32 @@ public class PlayerController : MonoBehaviour
                 playerAnim.SetBool("isRunning", true);
                 playerAnim.transform.localScale = new Vector3(2f, 2f, 1f); //flip facing direction to the right
             }
-            else if (Input.GetKey(KeyCode.R))
+            else
+            {
+                playerAnim.SetBool("isRunning", false);
+            }
+
+            if (Input.GetKey(KeyCode.W))
+            {
+                transform.position += Vector3.up * speed * Time.deltaTime; // move up
+                playerAnim.SetBool("isRunning", true);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                transform.position += Vector3.down * speed * Time.deltaTime; // move down
+                playerAnim.SetBool("isRunning", true);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                playerAnim.Play("jump");
+            }
+
+            if (Input.GetKey(KeyCode.R))
             {
                 Vector3 targetPosition = positions.Peek(); // get the oldest stored position
                 StartCoroutine(Rewind(targetPosition));
                 playerAnim.SetBool("isRewinding", true);
-            }
-            else
-            {
-                playerAnim.SetBool("isRunning", false);
             }
         }
 
