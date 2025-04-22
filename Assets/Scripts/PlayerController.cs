@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Animator playerAnim; // references the animator to control animations
+    public Rigidbody rb;
     public int speed; // speed of the player's movement
+    public int jumpForce; // force of the player's jump
 
     private Queue<Vector3> positions = new Queue<Vector3>(); // stores the player's previous positions
     private Queue<float> times = new Queue<float>(); //stores the times for each stored position
@@ -18,7 +20,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -56,18 +58,19 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W))
             {
-                transform.position += Vector3.up * speed * Time.deltaTime; // move up
+                transform.position += Vector3.forward * speed * Time.deltaTime; // move up
                 playerAnim.SetBool("isRunning", true);
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                transform.position += Vector3.down * speed * Time.deltaTime; // move down
+                transform.position += Vector3.back * speed * Time.deltaTime; // move down
                 playerAnim.SetBool("isRunning", true);
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 playerAnim.Play("jump");
+                //rb.AddForce(Vector3.up * jumpForce * Time.deltaTime);
             }
 
             if (Input.GetKey(KeyCode.R))
