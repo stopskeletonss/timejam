@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float rewindDuration = 1f; // duration of rewind mechanic
 
     private bool rewinding = false; // flag to check if rewind is in progress
+    private bool attacking = false; // flag to check if attack is in progress
 
     // Start is called before the first frame update
     void Start()
@@ -23,15 +24,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!rewinding) // only allow button and mouse events to be triggered if rewind is not in progress
+        if (!rewinding && !attacking) // only allow button and mouse events to be triggered if rewind is not in progress
         {
             if (Input.GetMouseButtonDown(0))
             {
                 playerAnim.Play("attack1");
+                attacking = true;
             }
             else if (Input.GetMouseButtonDown(1))
             {
                 playerAnim.Play("attack2");
+                attacking = true;
             }
 
             if (Input.GetKey(KeyCode.A))
@@ -83,6 +86,11 @@ public class PlayerController : MonoBehaviour
             positions.Dequeue();
             times.Dequeue();
         }
+    }
+
+    public void AttackOver()
+    {
+        attacking = false;
     }
 
     IEnumerator Rewind(Vector3 targetPosition)
