@@ -389,6 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerAnim: {fileID: 998546889}
+  speed: 3
 --- !u!212 &998546887
 SpriteRenderer:
   m_ObjectHideFlags: 0

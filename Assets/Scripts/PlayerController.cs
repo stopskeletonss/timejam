@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Animator playerAnim; // references the animator to control animations
-    private int speed; // speed of the player's movement
+    public int speed; // speed of the player's movement
 
     private Queue<Vector3> positions = new Queue<Vector3>(); // stores the player's previous positions
     private Queue<float> times = new Queue<float>(); //stores the times for each stored position
